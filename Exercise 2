@@ -1,0 +1,13 @@
+int potencial(int x, int y)
+{
+    Console.WriteLine(y);
+    if(y>1)
+        return x*potencial(x,y-1);
+    return x;
+}
+
+Console.Write("Digite o valor de X: ");
+int x = Convert.ToInt32(Console.ReadLine());
+Console.Write("Digite o valor de Y: ");
+int y = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine(potencial(x,y));
