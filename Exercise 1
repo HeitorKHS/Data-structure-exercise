@@ -1,54 +1,88 @@
-void option1()
+void crescent(int x, int y)
 {
-    Console.Write("Digite um número inteiro inicial: ");
-    int x = Convert.ToInt32(Console.ReadLine());
-    Console.Write("Digite um número inteiro final: ");
-    int y = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine(x);
+    if(x<y)
+        crescent(x+1,y);
+}
 
+void descending(int x, int y)
+{
+    Console.WriteLine(y);
+    if(y>x)
+        descending(x,y-1);
+}
+
+void odddecreasing(int x, int y)
+{
+    if(x%2!=0)
+    {
+        Console.WriteLine(x);
+        odddecreasing(x+1,y);
+    }
+    else if(x<y)
+        odddecreasing(x+1,y);
+}
+
+int addintegers(int x, int y)
+{
+    if(x<=y)
+       return x + addintegers(x+1,y);
+    return 0;
+}
+
+string menu2()
+{
     Console.WriteLine("MENU SECUNDÁRIO");
     Console.WriteLine("1 - Inteiros em ordem crescente");
     Console.WriteLine("2 - Inteiros em ordem decrescente");
     Console.WriteLine("3 - Inteiros ímpares (crescente)");
     Console.WriteLine("4 - Somatório dos inteiros");
     Console.Write("Digite a opção desejada: ");
-    string op = Console.ReadLine();
-    
-    int i;
+    return Console.ReadLine();
+}
+
+void option1()
+{
+    Console.Write("Digite um número inteiro inicial: ");
+    int x = Convert.ToInt32(Console.ReadLine());
+    Console.Write("Digite um número inteiro final: ");
+    int y = Convert.ToInt32(Console.ReadLine());
+    string op = menu2();
     switch(op)
     { 
         case "1":
-            for(i=x;i<=y;i++)
-            Console.WriteLine(i);
-            break;
+            crescent(x,y);
+            break;  
         case "2": 
-            for(i=y;i>=x;i--) 
-            Console.WriteLine(i);
+            descending(x,y);
             break;
         case "3":
-            for(i=x;i<=y;i++)
-                if(i%2 != 0)
-                Console.WriteLine(i);
+            odddecreasing(x,y);
             break;
         case "4":
-            for(i=x+1;i<=y;i++)
-                x = x+i;
-            Console.WriteLine(x);
+            Console.WriteLine(addintegers(x,y));
             break;
     }
 }
 
+int addarrays(int[] num, int x)
+{   
+    int sum;
+    if(x>=0)
+        return sum = num[x]+addarrays(num,x-1);
+    return 0;
+}
+
 void option2()
 {
-    int i, cont=0;
     int [] num = new int[5];
-    for(i=1;i<=5;i++)
+    for(int i=0;i<5;i++)
     {
-        Console.Write("Digite "+i+" numero inteiro: ");
+        Console.Write("Digite o valor: ");
         num[i] = Convert.ToInt32(Console.ReadLine());
     }
-    for(i=0;i<5;i++)
-        cont = cont +i;
-    Console.WriteLine(cont);
+    int x = 4;
+    Console.WriteLine(addarrays(num,x));    
 }
 
 string menu()
