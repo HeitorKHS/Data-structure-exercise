@@ -1,5 +1,6 @@
 void cubos(int n, int i)
 {   
+   Console.WriteLine("A");
    if(i<=n)
         cubos(n,i-1);
 }
