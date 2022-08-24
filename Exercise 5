@@ -1,0 +1,24 @@
+//Recursive
+int recursive(int n)
+{
+	if(n>= 2)
+        return recursive(n-1)+recursive(n-2);
+    return n;
+}
+
+//Iterative
+int iterative(int n)
+{
+    int fib1 = 1, fib2 = 1, soma;
+    while(n>2)
+    {
+        soma = fib1+fib2;
+        fib1=fib2;
+        fib2=soma;
+        n--;
+    } 
+    return fib2;
+}
+
+Console.WriteLine(recursive(6));
+Console.WriteLine(iterative(6));
