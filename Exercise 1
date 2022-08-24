@@ -14,13 +14,12 @@ void descending(int x, int y)
 
 void odddecreasing(int x, int y)
 {
-    if(x%2!=0)
+    if(x<y)
     {
-        Console.WriteLine(x);
+        if(x%2 != 0)
+            Console.WriteLine(x);
         odddecreasing(x+1,y);
     }
-    else if(x<y)
-        odddecreasing(x+1,y);
 }
 
 int addintegers(int x, int y)
