@@ -1,0 +1,14 @@
+string decimal_to_binary(int n, string binary = "")
+{
+    if(n>=1)
+    {
+        int porcent = n%2;
+        binary = porcent.ToString() + binary;
+        return decimal_to_binary(n/2, binary);
+    }
+    return binary;
+}
+
+Console.Write("Digite um numero: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine(decimal_to_binary(n));
