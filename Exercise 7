@@ -1,0 +1,78 @@
+7) Ilustre a situação da pilha (memória), inicialmente vazia, após a execução de cada uma das operações a seguir:
+⦁	Insere(pilha, ref topo, 20);
+⦁		Insere(pilha, ref topo, 30);
+⦁		Insere(pilha, ref topo, 40);
+⦁	v = Remove(pilha, ref topo);
+⦁	Insere(pilha, ref topo, 50);
+⦁	Insere(pilha, ref topo, v);
+⦁	Remove(pilha, ref topo);
+⦁	Remove(pilha, ref topo);
+
+
+class Pilha
+{
+    public int[] pilha;
+    public int top;
+
+    public Pilha(int limit = 200)
+    {
+        pilha = new int[limit];
+        top = -1;
+    }
+}
+
+class Program
+{
+    static void insert(Pilha p, int value)
+    { 
+        p.pilha[++p.top] = value;
+    } 
+
+    static int remove(Pilha p)
+    {
+        return p.pilha[p.top--];
+    }
+     
+    static void before_insert(Pilha p)
+    {
+        Console.Write("Enter a value: ");
+        int n = Convert.ToInt32(Console.ReadLine());
+        insert(p,n);
+    }
+
+     static void before_remove(Pilha p)
+     {
+          Console.WriteLine($"{remove(p)} Removed");
+     }
+
+     static void show_stack(Pilha p)
+     {
+          for(int i=0, y=p.top;y>=0;i++,y--) Console.WriteLine($"Position {i+1}: {p.pilha[y]}");
+     }
+
+    static int menu()
+    {
+        Console.WriteLine("MENU");
+        Console.WriteLine("1 - Insert in the stack");
+        Console.WriteLine("2 - Remove from the stack");
+        Console.WriteLine("3 - Show the stack");
+        Console.WriteLine("0 - Exit");
+        return Convert.ToInt32(Console.ReadLine());
+    }
+    static void Main()
+    {
+        int option;
+        Pilha p = new Pilha();
+        while((option =menu())!=0)
+        {
+            if(option == 1) before_insert(p);
+            else if(option == 2) before_remove(p);
+            else if(option == 3) show_stack(p);
+            else if(option == 0) break;
+            else Console.WriteLine("Invalid option !!");
+        }
+    }
+}
+
+
+
