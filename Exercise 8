@@ -1,0 +1,36 @@
+Faça um programa que converta um número inteiro da base decimal para a base binária.
+
+void insert(int[] stack, ref int top, int var)
+{
+    stack[++top] = var;
+}
+
+int remove(int[] stack, ref int top)
+{
+    return stack[top--]; 
+}
+
+bool IsVoid(int top)
+{
+    return top == -1;
+}
+
+void binary(int[] stack, ref int top, int var)
+{
+    while(var!=0)
+    {
+        insert(stack, ref top, var%2);
+        var/=2;
+    }
+    while(!IsVoid(top))
+    {
+        Console.Write(remove(stack, ref top));
+    }
+}
+
+const int MAX = 20;
+int[] stack = new int[MAX];
+int top = -1;
+Console.Write("Digite o numero que deseja: ");
+int var = Convert.ToInt32(Console.ReadLine());
+binary(stack, ref top, var);
