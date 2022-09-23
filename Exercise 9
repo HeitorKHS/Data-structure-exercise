@@ -1,0 +1,41 @@
+9) Escreva um programa para conhecer uma frase e exibi-la com as PALAVRAS invertidas. Por exemplo, a frase “Jose da Silva” deve sair “esoJ ad avliS”.
+
+bool IsVoid(int top)
+{
+    return top == -1;
+}
+
+char remove(char[] stack, ref int top)
+{
+    return stack[top--];
+}
+
+void insert(char[] stack, ref int top, char var)
+{
+    stack[++top] = var;
+}
+
+void StringToStack(char[] stack, ref int top, string text)
+{
+    int i=0;
+    while(i<text.Length)
+    {
+        while(i<text.Length && text[i]!= ' ')
+        {
+            insert(stack,ref top,text[i]);
+            i+=1;
+        }
+        while(!IsVoid(top))
+        {
+            Console.Write(remove(stack,ref top));
+        }
+        Console.Write(" ");
+        i+=1;
+    }
+}
+
+Console.Write("Digite uma frase: ");
+string text = Console.ReadLine();
+char[] stack = new char[text.Length];
+int top = -1;
+StringToStack(stack, ref top, text); 
