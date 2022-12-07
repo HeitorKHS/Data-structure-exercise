@@ -1,0 +1,115 @@
+24) Desenvolva um programa para inserir, pesquisar, remover e exibir os valores de uma árvore binária. Observe as opções a seguir:
+a) Inserir um valor digitado pelo usuário
+b) Pesquisar um valor digitado pelo usuário. Exiba uma mensagem informando se encontrou ou não
+c) Remover um valor digitado pelo usuário. Exiba a mensagem se removido com sucesso ou não encontrado
+d) Exibir todos os valores da árvore em ordem, pré ordem ou pós ordem
+
+void inserir(ref tp_arvore raiz, int x)
+{
+    if(raiz == null)
+    {
+        raiz = new tp_arvore();
+        raiz.valor = x;
+    }
+    else if (x <= raiz.valor) inserir(ref raiz.esquerda,x);
+    else inserir(ref raiz.direita,x); 
+}
+
+tp_arvore pesquisar (tp_arvore raiz, int x)
+{
+    if(raiz == null) return null;
+    else if(x == raiz.valor) return raiz;
+    else if (x < raiz.valor) return pesquisar(raiz.esquerda,x);
+    else return pesquisar(raiz.direita,x);
+}
+
+tp_arvore maior(ref tp_arvore raiz)
+{
+    if(raiz.direita == null)
+    {
+        tp_arvore aux = raiz;
+        raiz = raiz.esquerda;
+        return aux;
+    }
+    else return maior(ref raiz.direita);
+}
+
+tp_arvore remover(ref tp_arvore raiz, int x)
+{
+    if(raiz == null) return null;
+    else if (x == raiz.valor)
+    {
+        tp_arvore aux = raiz;
+        if(raiz.esquerda == null) raiz = raiz.direita;
+        else if(raiz.direita == null) raiz = raiz.esquerda;
+        else
+        {
+            aux = maior(ref raiz.esquerda);
+            raiz.valor = aux.valor;
+        } 
+        return aux;
+    }
+    else if (x < raiz.valor) return remover(ref raiz.esquerda, x);
+    else return remover (ref raiz.direita, x);
+}
+
+void exibir_ordem(tp_arvore raiz)
+{
+    if(raiz != null)
+    {
+        exibir_ordem(raiz.esquerda);
+        Console.WriteLine(raiz.valor);
+        exibir_ordem(raiz.direita);
+    }
+}
+
+int menu()
+{
+    Console.WriteLine("MENU");
+    Console.WriteLine("1 - Inserir");
+    Console.WriteLine("2 - Pesquisar");
+    Console.WriteLine("3 - Remover");
+    Console.WriteLine("4 - Exibir");
+    Console.WriteLine("0 - Sair");
+    return Convert.ToInt32(Console.ReadLine());
+}
+
+tp_arvore raiz = null;
+
+int op;
+
+while((op=menu())!= 0)
+{
+    switch(op)
+    {
+        case 1: 
+        {
+            Console.Write("Digite um valor: ");
+            inserir(ref raiz, Convert.ToInt32(Console.ReadLine())); 
+            break;
+        }
+        case 2: 
+        {
+            Console.Write("Digite um valor: ");
+            tp_arvore aux = pesquisar(raiz, Convert.ToInt32(Console.ReadLine()));
+            if(aux == null) Console.WriteLine("Não encontrado !!");
+            else Console.WriteLine("Encontrado !!"); 
+            break;
+        }
+        case 3: 
+        {
+            Console.Write("Digite um valor: ");
+            tp_arvore aux = remover(ref raiz, Convert.ToInt32(Console.ReadLine())); 
+            if (aux == null) Console.WriteLine("Não encontrado !!");
+            else Console.WriteLine("Removido com sucesso !!");
+            break;
+        }
+        case 4: exibir_ordem(raiz); break;
+    }
+}
+class tp_arvore
+{
+    public tp_arvore esquerda;
+    public tp_arvore direita;
+    public int valor;
+}
