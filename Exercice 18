@@ -1,0 +1,127 @@
+18) Faça um programa que utilize lista encadeada e que tenha as opções a seguir. O nó deve conter os atributos: nome, idade, whats e prox.
+a) Incluir conforme apresentado em aulas
+b) Para alterar, consulte pelo nome. Se encontrar, exiba os valores atuais e permita a alteração. Caso não encontre, exiba mensagem de não encontrado.
+c) Para excluir, procure pelo nome. Se encontrar, exiba os valores atuais e permita a exclusão. Caso não encontre, exiba mensagem de não encontrado.
+d) Na opção exibir, exiba todos os registros.
+
+void insert(ref cad aux, string name, string age, string whats)
+{
+    cad aux1 = new cad();
+    aux1.name = name;
+    aux1.age = age;
+    aux1.whats = whats;
+    if (aux != null)
+        aux1.next = aux;
+    aux = aux1;
+}
+
+void view(cad list)
+{  
+    while(list != null)
+    {
+       Console.WriteLine($"Nome: {list.name}");
+       Console.WriteLine($"Idade: {list.age}");
+       Console.WriteLine($"Whatsapp: {list.whats}\n");
+       list = list.next;
+       Console.WriteLine("_________________________________________");
+    }
+}
+
+void register(ref cad list)
+{
+    Console.Write("Nome: ");
+    string name = Console.ReadLine();
+    Console.Write("Idade: ");
+    string age = Console.ReadLine();
+    Console.Write("Whatsapp: ");
+    string whats = Console.ReadLine();
+    insert(ref list, name, age, whats);
+}
+
+void consult(cad list, string name, ref cad ant, ref cad atual)
+{  
+    ant = null;
+    atual = list;
+    while(atual!= null && atual.name!=name)
+    {
+        ant = atual;
+        atual = atual.next;
+    }
+}
+
+void modify(cad list)
+{
+    cad ant = null, atual = null;
+    Console.WriteLine("Digite o nome que deseja fazer alteração: ");
+    string name = Console.ReadLine();
+    consult(list, name, ref ant, ref atual);
+    if(atual != null) 
+    {
+        Console.WriteLine("ATUAL");
+        Console.WriteLine($"Nome: {atual.name}");
+        Console.WriteLine($"Idade: {atual.age}");
+        Console.WriteLine($"Whatsapp: {atual.whats}");
+        Console.WriteLine("\nMODIFICAÇÃO");
+        Console.Write($"Nome: ");
+        atual.name = Console.ReadLine();
+        Console.Write($"Idade: ");
+        atual.age = Console.ReadLine();
+        Console.Write($"Whatsapp: ");
+        atual.whats = Console.ReadLine();
+    }
+    else Console.WriteLine("Não encontrado !!");
+}
+
+void delete(ref cad list)
+{
+    cad ant = null, atual = null;
+    Console.WriteLine("Digite o nome que deseja excluir: ");
+    string name = Console.ReadLine();
+    consult(list, name, ref ant, ref atual);
+    if(atual != null)
+    {
+        if(ant == null)
+        {
+            list = atual.next;
+            atual.next = null;
+        }
+        else if(atual.next == null) ant.next = null;
+        else
+        {
+            ant.next = atual.next;
+            atual.next = null;
+        }
+        Console.WriteLine("Excluido com sucesso !!");
+    } 
+    else  Console.WriteLine("Não encontrado !!");
+    
+}
+
+int menu()
+{
+    Console.WriteLine("MENU");
+    Console.WriteLine("1 - Cadastrar");
+    Console.WriteLine("2 - Alterar");
+    Console.WriteLine("3 - Excluir");
+    Console.WriteLine("4 - Exibir");
+    Console.WriteLine("0 - Sair");
+    return Convert.ToInt32(Console.ReadLine());
+}
+
+cad list = null;
+int op;
+while((op=menu())!= 0)
+{
+    switch(op)
+    {
+        case 1: register(ref list); break;
+        case 2: modify(list); break;
+        case 3: delete(ref list); break;
+        case 4: view(list); break;
+    }
+}
+class cad
+{
+    public string name, age, whats;
+    public cad next;
+}
