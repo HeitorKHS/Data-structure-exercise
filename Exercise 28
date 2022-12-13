@@ -1,0 +1,277 @@
+28) Implemente um programa com as seguintes opções: Sem tratamento de colisão, Tratamento de colisão Linear e Tratamento de colisão com Lista Encadeada.
+Dentro de cada opção deve haver as funcionalidades: Inserir, Alterar e Relatar.
+O vetor deve ser do tipo abstrato de dado composto por idade, nome e whats. Serão necessários 3 vetores, um para cada tipo de tratamento de colisão.
+Para inserir um novo registro, solicite a idade, nome e whats. Utilize a idade como chave.
+Para alterar solicite a idade (chave) para ser utilizada na busca. Caso encontrada, informe o nome e o whats da pessoa. Após a consulta, o usuário pode atualizar somente o nome e o whats.
+Para relatar, percorra o vetor do inicio ao fim e exiba todos os registros.
+
+const int num = 5;
+
+int Menu() //Função para exibir o menu
+{
+    Console.WriteLine("MENU");
+    Console.WriteLine("1 - Inserir");
+    Console.WriteLine("2 - Alterar");
+    Console.WriteLine("3 - Relatar");
+    Console.WriteLine("0 - Sair");
+
+    return Convert.ToInt32(Console.ReadLine());
+}
+
+void Dados(ref int idade, ref string nome, ref string whats) //Função para receber os dados de cadastro
+{
+    Console.WriteLine("Digite o nome: ");
+    nome = Console.ReadLine();
+    Console.WriteLine("Digite a idade: ");
+    idade = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("Digite o whats: ");
+    whats = Console.ReadLine();
+}
+
+int Posicao(int idade) //Função que devolve a posição no vetor
+{
+    return idade%num;
+} 
+
+
+void Inserir_Sem_Tratamento(hash[] Vetor_Sem_Tratamento, int idade, string nome, string whats)
+{
+    int pos = Posicao(idade);
+    Vetor_Sem_Tratamento[pos] = new hash();
+    Vetor_Sem_Tratamento[pos].idade = idade;
+    Vetor_Sem_Tratamento[pos].nome = nome;
+    Vetor_Sem_Tratamento[pos].whats = whats;
+}
+
+void Alterar_Sem_Tratamento(hash[] Vetor_Sem_Tratamento)
+{
+    Console.WriteLine("Digite a idade que deseja procurar: ");
+    int idade = Convert.ToInt32(Console.ReadLine());
+    int pos = Posicao(idade);
+    if(Vetor_Sem_Tratamento[pos] != null && Vetor_Sem_Tratamento[pos].idade == idade)
+    {
+        Console.WriteLine("Dados atuais");
+        Console.WriteLine($"Nome: {Vetor_Sem_Tratamento[pos].nome}");
+        Console.WriteLine($"Idade: {Vetor_Sem_Tratamento[pos].idade}");
+        Console.WriteLine($"Whats: {Vetor_Sem_Tratamento[pos].whats}");
+        Console.WriteLine("Dados para atualizar");
+        Console.WriteLine("Digite o nome: ");
+        Vetor_Sem_Tratamento[pos].nome =  Console.ReadLine();
+        Console.WriteLine("Digite o Whats: ");
+        Vetor_Sem_Tratamento[pos].whats =  Console.ReadLine();
+        Console.WriteLine("Atualizado !!!");
+    }
+    else Console.WriteLine("Não encontrado !!");
+}
+
+void Relatar_Sem_Tratamento(hash[] Vetor_Sem_Tratamento)
+{
+    int contador = 0;
+    while(contador < num)
+    {
+        if(Vetor_Sem_Tratamento[contador] != null)
+        {
+            Console.WriteLine($"Nome: {Vetor_Sem_Tratamento[contador].nome}");
+            Console.WriteLine($"Idade: {Vetor_Sem_Tratamento[contador].idade}");
+            Console.WriteLine($"Whats: {Vetor_Sem_Tratamento[contador].whats}");
+        }
+        contador+=1;
+    }
+}
+
+void Sem_Tratamento(hash[] Vetor_Sem_Tratamento)
+{
+    int op, idade = 0;
+    string nome ="", whats ="";
+    while((op=Menu())!=0)
+    {
+        if(op == 1)  
+        {
+            Dados(ref idade, ref nome, ref whats);
+            Inserir_Sem_Tratamento(Vetor_Sem_Tratamento, idade, nome, whats);
+        }
+        else if(op == 2) Alterar_Sem_Tratamento(Vetor_Sem_Tratamento);
+        else if(op == 3) Relatar_Sem_Tratamento(Vetor_Sem_Tratamento);
+    }
+}
+
+int Posicao_Tratamento(hash[] Vetor_Com_Tratamento, int idade)
+{
+    int cont = 0;
+    int pos = Posicao(idade);
+    while(cont < num && (Vetor_Com_Tratamento[pos] == null || Vetor_Com_Tratamento[pos].idade != idade))
+    {
+        pos++;
+        pos = pos%num;
+        cont++;
+    }
+    if(cont < num) return pos;
+    else return -1;
+}
+
+void Inserir_Com_Tratamento(hash[] Vetor_Com_Tratamento, int idade, string nome, string whats)
+{
+    int pos = Posicao(idade), cont = 0;
+    while(cont < num && Vetor_Com_Tratamento[pos] != null)
+    {
+        pos++;
+        pos = pos%num;
+    }
+    if(cont != num)
+    {
+        Vetor_Com_Tratamento[pos] = new hash();
+        Vetor_Com_Tratamento[pos].idade = idade;
+        Vetor_Com_Tratamento[pos].nome = nome;
+        Vetor_Com_Tratamento[pos].whats = whats;
+    }
+    else Console.WriteLine("Sem espaço !!");
+}
+
+void Alterar_Com_Tratamento(hash[] Vetor_Com_Tratamento)
+{
+    Console.WriteLine("Digite a idade que deseja procurar: ");
+    int idade = Convert.ToInt32(Console.ReadLine());
+    int pos = Posicao_Tratamento(Vetor_Com_Tratamento,idade);
+    if(pos != -1)
+    {
+        Console.WriteLine("Dados atuais");
+        Console.WriteLine($"Nome: {Vetor_Com_Tratamento[pos].nome}");
+        Console.WriteLine($"Idade: {Vetor_Com_Tratamento[pos].idade}");
+        Console.WriteLine($"Whats: {Vetor_Com_Tratamento[pos].whats}");
+        Console.WriteLine("Dados para atualizar");
+        Console.WriteLine("Digite o nome: ");
+        Vetor_Com_Tratamento[pos].nome =  Console.ReadLine();
+        Console.WriteLine("Digite o Whats: ");
+        Vetor_Com_Tratamento[pos].whats =  Console.ReadLine();
+        Console.WriteLine("Atualizado !!!");
+    }
+    else Console.WriteLine("Não encontrado !!");
+}
+
+void Relatar_Com_Tratamento(hash[] Vetor_Com_Tratamento)
+{
+    int contador = 0;
+    while(contador < num)
+    {
+        if(Vetor_Com_Tratamento[contador] != null)
+        {
+            Console.WriteLine($"Nome: {Vetor_Com_Tratamento[contador].nome}");
+            Console.WriteLine($"Idade: {Vetor_Com_Tratamento[contador].idade}");
+            Console.WriteLine($"Whats: {Vetor_Com_Tratamento[contador].whats}");
+        }
+        contador+=1;
+    }
+}
+
+void Com_Tratamento(hash[] Vetor_Com_Tratamento)
+{
+    int op, idade = 0;
+    string nome ="", whats ="";
+    while((op=Menu())!=0)
+    {
+        if(op == 1)  
+        {
+            Dados(ref idade, ref nome, ref whats);
+            Inserir_Com_Tratamento(Vetor_Com_Tratamento, idade, nome, whats);
+        }
+        else if(op == 2) Alterar_Com_Tratamento(Vetor_Com_Tratamento);
+        else if(op == 3) Relatar_Com_Tratamento(Vetor_Com_Tratamento);
+    }
+}
+
+hash Posicao_Tratamento_Encadeada(hash[] Vetor_Com_Tratamento_Encadeada, int idade)
+{
+    int pos = Posicao(idade);
+    hash Auxiliar = Vetor_Com_Tratamento_Encadeada[pos];
+    while(Auxiliar != null && Auxiliar.idade != idade) Auxiliar = Auxiliar.proximo;
+    return Auxiliar;
+}
+
+void Inserir_Com_Tratamento_Encadeada(hash[] Vetor_Com_Tratamento_Encadeada, int idade, string nome, string whats)
+{
+    int pos = Posicao(idade);
+    hash Auxiliar = new hash();
+    Auxiliar.nome = nome;
+    Auxiliar.idade = idade;
+    Auxiliar.whats = whats;
+    if(Vetor_Com_Tratamento_Encadeada[pos] != null) Auxiliar.proximo = Vetor_Com_Tratamento_Encadeada[pos];
+    Vetor_Com_Tratamento_Encadeada[pos] = Auxiliar;
+}
+
+void Alterar_Com_Tratamento_Encadeada(hash[] Vetor_Com_Tratamento_Encadeada)
+{
+    Console.WriteLine("Digite a idade que deseja procurar: ");
+    int idade = Convert.ToInt32(Console.ReadLine());
+    hash pos = Posicao_Tratamento_Encadeada(Vetor_Com_Tratamento_Encadeada,idade);
+    if(pos != null)
+    {
+        Console.WriteLine("Dados atuais");
+        Console.WriteLine($"Nome: {pos.nome}");
+        Console.WriteLine($"Idade: {pos.idade}");
+        Console.WriteLine($"Whats: {pos.whats}");
+        Console.WriteLine("Dados para atualizar");
+        Console.WriteLine("Digite o nome: ");
+        pos.nome =  Console.ReadLine();
+        Console.WriteLine("Digite o Whats: ");
+        pos.whats =  Console.ReadLine();
+        Console.WriteLine("Atualizado !!!");
+    }
+    else Console.WriteLine("Não encontrado !!");
+}
+
+void Relatar_Com_Tratamento_Encadeada(hash[] Vetor_Com_Tratamento_Encadeada)
+{
+    int contador = 0;
+    while(contador < num)
+    {
+        hash Auxiliar = Vetor_Com_Tratamento_Encadeada[contador];
+        while(Auxiliar != null)
+        {
+            Console.WriteLine($"Nome: {Auxiliar.nome}");
+            Console.WriteLine($"Idade: {Auxiliar.idade}");
+            Console.WriteLine($"Whats: {Auxiliar.whats}");
+            Auxiliar = Auxiliar.proximo;
+        }
+        contador+=1;
+    }
+}
+
+void Com_Tratamento_Encadeada(hash[] Vetor_Com_Tratamento_Encadeada)
+{
+    int op, idade = 0;
+    string nome ="", whats ="";
+    while((op=Menu())!=0)
+    {
+        if(op == 1)  
+        {
+            Dados(ref idade, ref nome, ref whats);
+            Inserir_Com_Tratamento_Encadeada(Vetor_Com_Tratamento_Encadeada, idade, nome, whats);
+        }
+        else if(op == 2) Alterar_Com_Tratamento_Encadeada(Vetor_Com_Tratamento_Encadeada);
+        else if(op == 3) Relatar_Com_Tratamento_Encadeada(Vetor_Com_Tratamento_Encadeada);
+    }
+}
+
+hash[] Vetor_Sem_Tratamento = new hash[num];
+hash[] Vetor_Com_Tratamento = new hash[num];
+hash[] Vetor_Com_Tratamento_Encadeada = new hash[num];
+int op = 0;
+while(op != 4)
+{
+    Console.WriteLine("MENU");
+    Console.WriteLine("1 - Sem tratamento de colisão");
+    Console.WriteLine("2 - Tratamento de colisão Linear");
+    Console.WriteLine("3 - Tratamento de colisão com Lista Encadeada");
+    Console.WriteLine("4 - Sair");
+    op = Convert.ToInt32(Console.ReadLine());
+    if(op == 1) Sem_Tratamento(Vetor_Sem_Tratamento);
+    else if(op == 2) Com_Tratamento(Vetor_Com_Tratamento);
+    else if(op == 3) Com_Tratamento_Encadeada(Vetor_Com_Tratamento_Encadeada);
+
+}
+class hash
+{
+    public string nome, whats;
+    public int idade;
+    public hash proximo;
+}
